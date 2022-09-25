@@ -3,6 +3,10 @@ import * as vscode from 'vscode';
 import { TextDecoder, TextEncoder } from 'util';
 
 
+interface RawNotebookData {
+    cells: RawNotebookCell[]
+}
+
 interface RawNotebookCell {
     value: string;
     language: string;
@@ -14,26 +18,26 @@ export class ExampleSerializer implements vscode.NotebookSerializer {
 
     async deserializeNotebook(content: Uint8Array, token: vscode.CancellationToken)
     : Promise<vscode.NotebookData> {
-        let raw: RawNotebookCell[] = [],
+        let raw: RawNotebookData = { cells: [] },
             contents = new TextDecoder().decode(content);
 
         try {
-            raw = <RawNotebookCell[]>JSON.parse(contents);
+            raw = <RawNotebookData>JSON.parse(contents);
         } catch (err) {
             console.error('Failed to parse JSON document ', err);
         }
 
-        return new vscode.NotebookData(raw.map(
+        return new vscode.NotebookData(raw.cells.map(
             item => new vscode.NotebookCellData(item.kind, item.value, item.language)
         ));
     }
 
     async serializeNotebook(data: vscode.NotebookData, token: vscode.CancellationToken)
     : Promise<Uint8Array> {
-        let contents: RawNotebookCell[] = [];
+        let contents: RawNotebookData = { cells: [] };
 
         for (const cell of data.cells) {
-            contents.push({
+            contents.cells.push({
                 kind: cell.kind, value: cell.value, language: cell.languageId
             });
         }
