@@ -12,8 +12,9 @@ export class ExampleController {
     private readonly _controller: vscode.NotebookController;
 
     constructor() {
-        this._controller = vscode
-            .notebooks.createNotebookController(this.id, 'runkit-notebook', this.label);
+        this._controller = vscode.notebooks.createNotebookController(this.id,
+                                                                     'runkit-notebook',
+                                                                     this.label);
 
         this._controller.supportsExecutionOrder = true;
         this._controller.supportedLanguages = this.supportedLanguages;
@@ -37,19 +38,21 @@ export class ExampleController {
         execution.start(Date.now());
 
         try {
+            const text = JSON.parse(cell.document.getText());
+            const mime = "x-application/custom-json-output";
             execution.replaceOutput([
                 new vscode.NotebookCellOutput([
-                    vscode.NotebookCellOutputItem.json(JSON.parse(cell.document.getText()), "x-application/sample-json-renderer"),
-                        vscode.NotebookCellOutputItem.json(JSON.parse(cell.document.getText()))
+                    vscode.NotebookCellOutputItem.json(text, mime),
+                    vscode.NotebookCellOutputItem.json(text)
                 ])
             ]);
-
-            execution.end(true, Date.now());
         } catch (err: any) {
             execution.replaceOutput([
                 new vscode.NotebookCellOutput([vscode.NotebookCellOutputItem.error(err)])
             ]);
             execution.end(false, Date.now());
         }
+
+        execution.end(true, Date.now());
     }
 }
