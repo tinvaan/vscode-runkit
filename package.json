@@ -4,7 +4,7 @@
   "description": "Create runkit notebooks within VSCode",
   "version": "0.0.1",
   "engines": {
-    "vscode": "^1.71.0"
+    "vscode": "^1.57.0"
   },
   "keywords": [
     "notebookRenderer"
@@ -18,11 +18,11 @@
   "contributes": {
     "notebooks": [
       {
-        "type": "open-notebook",
-        "displayName": "Open notebook",
+        "type": "runkit-notebook",
+        "displayName": "Runkit Notebook",
         "selector": [
             {
-                "filenamePattern": "*.demo"
+              "filenamePattern": "*.runkit"
             }
         ]
       }
@@ -32,7 +32,10 @@
         "id": "vscode-runkit",
         "entrypoint": "./out/client/index.js",
         "displayName": "vscode-runkit",
-        "mimeTypes": ["x-application/custom-json-output"]
+        "mimeTypes": [
+          "x-application/custom-json-output",
+          "x-application/sample-json-renderer"
+        ]
       }
     ]
   },
