@@ -22,7 +22,7 @@
         "displayName": "Runkit Notebook",
         "selector": [
             {
-              "filenamePattern": "*.runkit"
+              "filenamePattern": "*.{jsr,rjs,runkit}"
             }
         ]
       }
