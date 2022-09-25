@@ -1,12 +1,15 @@
-// The module 'vscode' contains the VS Code extensibility API
-// Import the module and reference it with the alias vscode in your code below
+
 import * as vscode from 'vscode';
 
-// This method is called when your extension is activated
-// your extension is activated the very first time the command is executed
+import { ExampleSerializer } from './serializers';
+
+
 export function activate(context: vscode.ExtensionContext) {
-  // Nothing (yet)
+  context.subscriptions.push(
+    vscode.workspace.registerNotebookSerializer(
+      'open-notebook', new ExampleSerializer(), { transientOutputs: true }
+    )
+  );
 }
 
-// This method is called when your extension is deactivated
 export function deactivate() { }

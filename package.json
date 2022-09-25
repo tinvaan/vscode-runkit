@@ -12,10 +12,21 @@
   "categories": [
     "Other"
   ],
-  "activationEvents": [],
+  "activationEvents": ["onNotebook:open-notebook"],
   "main": "./out/extension/extension.js",
   "browser": "./out/extension/extension.web.js",
   "contributes": {
+    "notebooks": [
+      {
+        "type": "open-notebook",
+        "displayName": "Open notebook",
+        "selector": [
+            {
+                "filenamePattern": "*.demo"
+            }
+        ]
+      }
+    ],
     "notebookRenderer": [
       {
         "id": "vscode-runkit",
