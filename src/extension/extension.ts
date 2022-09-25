@@ -2,14 +2,13 @@
 import * as vscode from 'vscode';
 
 import { ExampleSerializer } from './serializers';
+import { ExampleController } from './controllers';
 
 
 export function activate(context: vscode.ExtensionContext) {
-  context.subscriptions.push(
-    vscode.workspace.registerNotebookSerializer(
-      'open-notebook', new ExampleSerializer(), { transientOutputs: true }
-    )
+  const notebook = vscode.workspace.registerNotebookSerializer(
+    'runkit-notebook', new ExampleSerializer(), { transientOutputs: true }
   );
-}
 
-export function deactivate() { }
+  context.subscriptions.push(notebook, new ExampleController());
+}
